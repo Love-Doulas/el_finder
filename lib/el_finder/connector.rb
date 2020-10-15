@@ -431,7 +431,13 @@ module ElFinder
         if @target.file?
           perms = perms_for(@target)
           if perms[:read] == true && perms[:write] == true
+            if @params[:mode] == "crop"
+              image_handler.resize_crop(@target, :width => @params[:width].to_i, :height => @params[:height].to_i, :x => @params[:x].to_i, :y => @params[:y].to_i)
+            elsif @params[:mode] == "rotate"
+              image_handler.resize_rotate(@target, :degree => @params[:degree].to_i)
+            else
             image_handler.resize(@target, :width => @params[:width].to_i, :height => @params[:height].to_i)
+            end
             @response[:select] = [to_hash(@target)]
             _open(@current)
           else
