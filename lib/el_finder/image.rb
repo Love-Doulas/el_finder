@@ -22,6 +22,16 @@ module ElFinder
       system( ::Shellwords.join(['mogrify', '-resize', "#{options[:width]}x#{options[:height]}!", pathname.to_s]) ) 
     end # of self.resize
 
+    def self.resize_crop(pathname, options = {})
+      return nil unless File.exist?(pathname)
+      system( ::Shellwords.join(['mogrify', '-crop', "#{options[:width]}x#{options[:height]}+#{options[:x]}+#{options[:y]}!", pathname.to_s]) ) 
+    end
+
+    def self.resize_rotate(pathname, options = {})
+      return nil unless File.exist?(pathname)
+      system( ::Shellwords.join(['mogrify', '-rotate', "#{options[:degree]}!", pathname.to_s]) ) 
+    end
+
     def self.thumbnail(src, dst, options = {})
       return nil unless File.exist?(src)
       src = "#{src.to_s}[0]" if options[:has_frames]
